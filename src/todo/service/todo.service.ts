@@ -1,7 +1,15 @@
+import todoRepository from "../../database/repository/todo.repository"
+
 class TodoService {
-    
+
     async get(): Promise<any> {
-        return " controller -> service -> controller"
+        try {
+            const result = await todoRepository.get();
+            return result
+        } catch (error) {
+            
+        }
+         
     }
 
     async getById(): Promise<any> {

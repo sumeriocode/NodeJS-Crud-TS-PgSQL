@@ -7,29 +7,45 @@ class TodoService {
             const result = await todoRepository.get();
             return result
         } catch (error) {
-            
+            throw error
         }
          
     }
 
-    async getById(): Promise<any> {
-        return " controller -> service -> controller"
+    async getById(id: number): Promise<any> {
+         try {
+            const result = await todoRepository.getById(id);
+            return result
+        } catch (error) {
+            throw error
+        }
     }
 
-    async post(): Promise<any> {
-        return " controller -> service -> controller"
+    async post(data: any): Promise<any> {
+         try {
+            const result = await todoRepository.post(data);
+            return result
+        } catch (error) {
+            throw error
+        }
     }
     
-    async put(): Promise<any> {
-        return " controller -> service -> controller"
-    }
-    
-    async patch(): Promise<any> {
-        return " controller -> service -> controller"
+    async put(id: number, data: any): Promise<any> {
+         try {
+            const result = await todoRepository.put(id, data);
+            return result
+        } catch (error) {
+            throw error
+        }
     }
 
-    async delete(): Promise<any> {
-        return " controller -> service -> controller"
+    async delete(id: number): Promise<any> {
+         try {
+            const result = await todoRepository.delete(id);
+            return result
+        } catch (error) {
+            throw error
+        }
     }
 }
 

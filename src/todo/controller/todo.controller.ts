@@ -8,27 +8,34 @@ class TodoController {
     }
 
     async getById(req: Request, res: Response): Promise<void> {
-        const result = await todoService.getById();
+        const {id} = req.params;
+        const result = await todoService.getById(Number(id));
         res.status(200).send(result);
     }
 
     async post(req: Request, res: Response): Promise<void> {
-        const result = await todoService.post();
+        const todo = req.body;
+        const result = await todoService.post(todo);
         res.status(200).send(result);
     }
 
     async put(req: Request, res: Response): Promise<void> {
-        const result = await todoService.put();
+        const {id} = req.params;
+        const todo = req.body;
+        const result = await todoService.put(Number(id),todo);
         res.status(200).send(result);
     }
 
     async patch(req: Request, res: Response): Promise<void> {
-        const result = await todoService.patch();
+        const {id} = req.params;
+        const todo = req.body;
+        const result = await todoService.put(Number(id),todo);
         res.status(200).send(result);
     }
 
     async delete(req: Request, res: Response): Promise<void> {
-        const result = await todoService.delete();
+        const {id} = req.params;
+        const result = await todoService.delete(Number(id));
         res.status(200).send(result);
     }
 }

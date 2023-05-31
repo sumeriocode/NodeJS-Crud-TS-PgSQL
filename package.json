@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "test",
+    "test": "jest",
     "dev": "ts-node-dev --respawn --pretty --transpile-only src/index.ts"
   },
   "keywords": [],
@@ -22,8 +22,14 @@
     "@types/cors": "^2.8.13",
     "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.17",
+    "@types/faker": "^6.6.9",
     "@types/helmet": "^4.0.0",
+    "@types/jest": "^29.5.1",
     "@types/node": "^20.2.5",
+    "faker": "^5.5.3",
+    "jest": "^29.5.0",
+    "supertest": "^6.3.3",
+    "ts-jest": "^29.1.0",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.0.4"
   }

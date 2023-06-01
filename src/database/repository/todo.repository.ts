@@ -11,6 +11,7 @@ class TodoRepository {
     }
 
     async post(data: any){
+        data.isActive = true;
         return await AppDataSource.manager.save(Todo, data);
     }
 

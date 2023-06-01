@@ -1,0 +1,128 @@
+openapi: 3.0.1
+info:
+  title: REST API for Swagger Documentation
+  version: 1.0.0
+servers:
+  - url: http://localhost:7001/api/v1
+paths:
+  /todo:
+    get:
+      summary: Obtener todas las tareas
+      tags:
+        - Todo
+      description: Devuelve todas las tareas.
+      responses:
+        '200':
+          description: Lista de tareas obtenida con éxito
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Todo'
+    post:
+      summary: Crear una nueva tarea
+      tags:
+        - Todo
+      description: Crea una nueva tarea.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TodoRequest'
+      responses:
+        '201':
+          description: Tarea creada con éxito
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todo'
+  /todo/{id}:
+    get:
+      summary: Obtener una tarea por ID
+      tags:
+        - Todo
+      description: Devuelve una tarea por su ID.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID de la tarea
+      responses:
+        '200':
+          description: Tarea obtenida con éxito
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todo'
+    put:
+      summary: Actualizar una tarea existente
+      tags:
+        - Todo
+      description: Actualiza una tarea existente.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID de la tarea
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TodoRequest'
+      responses:
+        '200':
+          description: Tarea actualizada con éxito
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todo'
+    delete:
+      summary: Eliminar una tarea existente
+      tags:
+        - Todo
+      description: Elimina una tarea existente.
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID de la tarea
+      responses:
+        '200':
+          description: Tarea actualizada con éxito
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todo'
+components:
+  schemas:
+    Todo:
+      type: object
+      required:
+        - name
+      properties:
+        id:
+          type: string
+          description: ID de la tarea
+        name:
+          type: string
+          description: Nombre de la tarea
+    TodoRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: Nombre de la tarea
+tags:
+  - name: Todo
+    description: The todo managing API

@@ -2,9 +2,6 @@ import "reflect-metadata"
 import { DataSource } from "typeorm"
 import { Todo } from "./entity/todo.entity"
 
-console.log(process.env.PORT);
-console.log(process.env.DB_HOST);
-
 const AppDataSource = new DataSource({
     type: 'postgres',
     host: process.env.DB_HOST,

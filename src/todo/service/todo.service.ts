@@ -1,4 +1,5 @@
 import todoRepository from "../../database/repository/todo.repository"
+import CustomError from "../../integration/error.interface";
 
 class TodoService {
 
@@ -7,7 +8,7 @@ class TodoService {
             const result = await todoRepository.get();
             return result
         } catch (error) {
-            throw error
+            throw new CustomError(500, 'Error del sistema');
         }
          
     }
@@ -17,7 +18,7 @@ class TodoService {
             const result = await todoRepository.getById(id);
             return result
         } catch (error) {
-            throw error
+            throw new CustomError(500, 'Error del sistema');
         }
     }
 
@@ -26,7 +27,7 @@ class TodoService {
             const result = await todoRepository.post(data);
             return result
         } catch (error) {
-            throw error
+            throw new CustomError(500, 'Error del sistema');        
         }
     }
     
@@ -35,7 +36,7 @@ class TodoService {
             const result = await todoRepository.put(id, data);
             return result
         } catch (error) {
-            throw error
+            throw new CustomError(500, 'Error del sistema');
         }
     }
 
@@ -44,7 +45,7 @@ class TodoService {
             const result = await todoRepository.delete(id);
             return result
         } catch (error) {
-            throw error
+            throw new CustomError(500, 'Error del sistema');
         }
     }
 }

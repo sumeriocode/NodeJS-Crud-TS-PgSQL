@@ -2,14 +2,15 @@ import { Todo } from "../../database/entity/todo.entity";
 import todoRepository from "../../database/repository/todo.repository"
 import CustomError from "../../integration/error.interface";
 import logger from "../../logger";
-import { TodoRequestDTO, TodoResponseDTO } from "../dto/todo.dto";
+import { PaginationResponse, PaginationResponseDTO, TodoRequestDTO, TodoResponseDTO } from "../dto/todo.dto";
 
 class TodoService {
 
-    async get(): Promise<TodoResponseDTO[]> {
+    async get(page, limit, offset): Promise<PaginationResponseDTO<TodoResponseDTO>> {
         try {
-            const result = await todoRepository.get();
-            return this.generateListTodoResponseDTO(result);
+            const result = await todoRepository.get(page, limit, offset);
+
+            return this.generateTodoResponsePaginationDTO(result);
         } catch (error) {
             logger.error(error);
             throw new CustomError(500, 'Error del sistema');
@@ -65,6 +66,17 @@ class TodoService {
         const result = new TodoResponseDTO();
         result.id = request.id;
         result.name = request.name;
+        return result;
+    }
+
+
+    generateTodoResponsePaginationDTO = (request: PaginationResponse<Todo>) => {
+        const result = new PaginationResponseDTO<TodoResponseDTO>();
+        result.data = this.generateListTodoResponseDTO(request.data);
+        result.currentPage = request.currentPage;
+        result.pageSize = request.pageSize;
+        result.totalItems = request.totalItems;
+        result.totalPages = request.totalPages;
         return result;
     }
 

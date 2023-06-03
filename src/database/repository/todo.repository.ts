@@ -1,10 +1,27 @@
 import { DeleteResult } from "typeorm";
 import AppDataSource from "../data-source";
 import { Todo } from "../entity/todo.entity";
+import { PaginationResponse } from "../../todo/dto/todo.dto";
 
 class TodoRepository {
-    async get(): Promise<Todo[]> {
-        return await AppDataSource.manager.find(Todo);
+    async get(page, limit, offset): Promise<PaginationResponse<Todo>> {
+
+
+        const [todos, total]  = await AppDataSource.manager.findAndCount(Todo,{
+            skip: offset,
+            take: limit,
+          });
+
+        const totalPages = Math.ceil(total / limit);
+        const response: PaginationResponse<Todo> = {
+            data: todos,
+            currentPage: page,
+            totalPages: totalPages,
+            totalItems: total,
+            pageSize: limit,
+          };
+
+        return response;
     }
 
     async getById(id: number){

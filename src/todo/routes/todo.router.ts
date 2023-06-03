@@ -11,6 +11,29 @@ router.get('/', todoController.get);
  *     summary: Obtener todas las tareas
  *     tags: [Todo]
  *     description: Devuelve todas las tareas.
+ *     parameters:
+ *       - name: page
+ *         in: query
+ *         description: The page number
+ *         schema:
+ *           type: integer
+ *           minimum: 0
+ *           default: 0
+ *       - name: limit
+ *         in: query
+ *         description: The number of items per page
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *           maximum: 1000
+ *           default: 1
+ *       - name: offset
+ *         in: query
+ *         description: The number of items to skip
+ *         schema:
+ *           type: integer
+ *           minimum: 0
+ *           default: 0
  *     responses:
  *       200:
  *         description: Lista de tareas obtenida con éxito

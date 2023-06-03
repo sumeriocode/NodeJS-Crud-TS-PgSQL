@@ -1,4 +1,5 @@
 import { Response } from 'express';
+import { PaginationResponseDTO } from '../todo/dto/todo.dto';
 
 interface Pagination {
   totalItems: number;
@@ -13,7 +14,7 @@ class ApiResponse<T> {
     this.res = res;
   }
 
-  success(data?: T, pagination?: Pagination, statusCode = 200): void {
+  success(data?: T, statusCode = 200): void {
     const response: any = {
       success: true,
     };
@@ -22,9 +23,21 @@ class ApiResponse<T> {
       response.data = data;
     }
 
-    if (pagination !== undefined) {
-      response.pagination = pagination;
-    }
+
+    this.res.status(statusCode).json(response);
+  }
+
+  successPagination(data?: any, statusCode = 200): void {
+    const response: any = {
+      success: true,
+    };
+
+    response.data = data.data
+    response.currentPage = data.currentPage;
+    response.pageSize = data.pageSize;
+    response.totalItems = data.totalItems;
+    response.totalPages = data.totalPages;
+    
 
     this.res.status(statusCode).json(response);
   }

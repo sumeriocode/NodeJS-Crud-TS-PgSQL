@@ -1,8 +1,9 @@
+import { DeleteResult } from "typeorm";
 import AppDataSource from "../data-source";
 import { Todo } from "../entity/todo.entity";
 
 class TodoRepository {
-    async get(){
+    async get(): Promise<Todo[]> {
         return await AppDataSource.manager.find(Todo);
     }
 
@@ -10,12 +11,12 @@ class TodoRepository {
         return await AppDataSource.manager.findOne(Todo, { where: { id : id , isActive: true}});
     }
 
-    async post(data: any){
+    async post(data: any): Promise<Todo> {
         data.isActive = true;
         return await AppDataSource.manager.save(Todo, data);
     }
 
-    async put(id: number, updateFields : Partial<Todo>){
+    async put(id: number, updateFields : Partial<Todo>): Promise<Todo> {
 
         const todo = await this.getById(id);
         if(todo){
@@ -24,7 +25,7 @@ class TodoRepository {
         return await AppDataSource.manager.save(Todo, todo);
     }
 
-    async delete(id: number){
+    async delete(id: number): Promise<DeleteResult> {
         return await AppDataSource.manager.delete(Todo, id);
     }
 

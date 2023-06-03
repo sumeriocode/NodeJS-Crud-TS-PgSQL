@@ -1,6 +1,7 @@
 import "reflect-metadata"
 import { DataSource } from "typeorm"
 import { Todo } from "./entity/todo.entity"
+import logger from "../logger"
 
 const AppDataSource = new DataSource({
     type: 'postgres',
@@ -18,9 +19,10 @@ const AppDataSource = new DataSource({
 
 AppDataSource.initialize()
     .then(() => {
-        console.log('Database connection success');
-        
+        logger.info('Database connection success');
     })
-    .catch((error) => console.log(error))
+    .catch((error) => {
+        logger.error(error);
+    })
 
 export default AppDataSource;

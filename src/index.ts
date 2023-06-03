@@ -1,6 +1,7 @@
 /**
  * Required External Modules
  */
+
 import * as dotenv from "dotenv";
 dotenv.config();
 import express from "express";
@@ -14,6 +15,7 @@ import * as OpenApiValidator from 'express-openapi-validator';
 import { ErrorHandler } from "./middleware/error.handler";
 import yaml from 'js-yaml';
 import fs from 'fs';
+import logger from "./logger";
 
 /**
  * App Variables
@@ -85,7 +87,7 @@ app.use(ErrorHandler.errorHandler)
  */
 
 app.listen(PORT, () => {
-    console.log(`Listening on port ${PORT}`);
+    logger.info(`Listening on port ${PORT}`);
 });
 
 

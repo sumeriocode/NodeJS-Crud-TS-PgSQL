@@ -3,7 +3,7 @@ import todoService from "../service/todo.service";
 import CustomError from "../../integration/error.interface";
 
 class TodoController {
-    async get(req: Request, res: Response, next: NextFunction): Promise<void> {
+    async get(req: Request, res: Response): Promise<void> {
 
         try {
             const result = await todoService.get();
@@ -15,29 +15,32 @@ class TodoController {
             if (error instanceof CustomError) {
                 res.status(error.statusCode).json({ error: error.message, details: error.details });
             }
-            next(error);
+            
         }
     }
 
-    async getById(req: Request, res: Response, next: NextFunction): Promise<void> {
-
+    async getById(req: Request, res: Response): Promise<void> {
 
         try {
             const { id } = req.params;
             const result = await todoService.getById(Number(id));
-            res.status(200).json({
-                status: 'ok',
-                data: result,
-            });
+            if (result) {
+                res.status(200).json({
+                    status: 'ok',
+                    data: result,
+                });
+            }else {
+                res.status(404).send("no existe el registro");
+            }
         } catch (error) {
             if (error instanceof CustomError) {
                 res.status(error.statusCode).json({ error: error.message, details: error.details });
             }
-            next(error);
+            
         }
     }
 
-    async post(req: Request, res: Response, next: NextFunction): Promise<void> {
+    async post(req: Request, res: Response): Promise<void> {
         try {
             const todo = req.body;
             const result = await todoService.post(todo);
@@ -49,11 +52,29 @@ class TodoController {
             if (error instanceof CustomError) {
                 res.status(error.statusCode).json({ error: error.message, details: error.details });
             }
-            next(error);
+            
         }
     }
 
-    async put(req: Request, res: Response, next: NextFunction): Promise<void> {
+    async put(req: Request, res: Response): Promise<void> {
+        try {
+            const { id } = req.params;
+            const todo = req.body;
+            const result = await todoService.put(Number(id), todo);
+            res.status(200).json({
+                status: 'ok',
+                data: result,
+            });
+
+        } catch (error) {
+            if (error instanceof CustomError) {
+                res.status(error.statusCode).send("No se puede modificar el registro");
+            }
+            
+        }
+    }
+
+    async patch(req: Request, res: Response): Promise<void> {
         try {
             const { id } = req.params;
             const todo = req.body;
@@ -67,42 +88,30 @@ class TodoController {
             if (error instanceof CustomError) {
                 res.status(error.statusCode).json({ error: error.message, details: error.details });
             }
-            next(error);
+            
         }
     }
 
-    async patch(req: Request, res: Response, next: NextFunction): Promise<void> {
-        try {
-            const { id } = req.params;
-            const todo = req.body;
-            const result = await todoService.put(Number(id), todo);
-            res.status(200).json({
-                status: 'ok',
-                data: result,
-            });
-
-        } catch (error) {
-            if (error instanceof CustomError) {
-                res.status(error.statusCode).json({ error: error.message, details: error.details });
-            }
-            next(error);
-        }
-    }
-
-    async delete(req: Request, res: Response, next: NextFunction): Promise<void> {
+    async delete(req: Request, res: Response): Promise<void> {
         try {
             const { id } = req.params;
             const result = await todoService.delete(Number(id));
-            res.status(200).json({
-                status: 'ok',
-                data: result,
-            });
+
+            if(result){
+                res.status(200).json({
+                    status: 'ok',
+                    data: result,
+                });
+            }else{
+                res.status(404).send("no existe el registro");
+            }
+           
 
         } catch (error) {
             if (error instanceof CustomError) {
                 res.status(error.statusCode).json({ error: error.message, details: error.details });
             }
-            next(error);
+            
         }
     }
 }
